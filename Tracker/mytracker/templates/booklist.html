@@ -1,0 +1,30 @@
+<style>
+    .book {
+        background-color: #f5f5f5;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+    
+    .book h2 {
+        margin-top: 0;
+    }
+    
+    .book p {
+        margin-bottom: 10px;
+    }
+</style>
+
+<h1>Book List</h1>
+{% for book in books %}
+    <div class="book">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Subtitle:</strong> {{ book.subtitle }}</p>
+        <p><strong>Authors:</strong> {{ book.authors }}</p>
+        <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+        <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+        <p><strong>Category:</strong> {{ book.category }}</p>
+        <p><strong>Distribution Expense:</strong> {{ book.distribution_expense }}</p>
+        <!-- Display other book properties as needed -->
+    </div>
+{% endfor %}
