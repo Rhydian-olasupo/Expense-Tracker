@@ -7,7 +7,12 @@ from .models import Books,Category
 from django.http import Http404
 from .forms import BookingForm
 import requests
-
+from django.views import View
+from .serializers import BookSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import HttpResponse
 
 class CategoriesView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -46,15 +51,27 @@ class SingleBookView(generics.RetrieveUpdateDestroyAPIView):
             raise Http404("Book not found")
 
 
-def books(request):
+'''def books(request):
     form = BookingForm()
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             form.save()
     context = {'form':form}
-    return render(request,'books.html',context)
+    return render(request,'books.html',context)'''
 
+class BookView1(APIView):
+    def get(self, request):
+        form = BookingForm()
+        return render(request, 'books.html', {'form': form})
+
+    def post(self, request):
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            book = form.save()
+            serializer = BookSerializer(book)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 '''def book_list(request):
     response = requests.get('http://127.0.0.1:8000/api/booklist')
